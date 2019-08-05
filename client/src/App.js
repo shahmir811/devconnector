@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
@@ -9,8 +9,21 @@ import Landing from './components/layout/Landing';
 import Alert from './components/layout/Alert';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
+import setAuthToken from './utils/setAuthToken';
+import { loadUser } from './actions/auth';
+
+const token = localStorage.getItem('token');
+
+if (token) {
+  setAuthToken(token);
+  console.log('YES it is loading at the start');
+}
 
 const App = () => {
+  useEffect(() => {
+    store.dispatch(loadUser());
+  }, []);
+
   return (
     <Provider store={store}>
       <BrowserRouter>

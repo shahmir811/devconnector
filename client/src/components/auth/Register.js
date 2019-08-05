@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 import { setAlert } from '../../actions/alert';
+import { register } from '../../actions/auth';
 import PropTypes from 'prop-types';
 
 const Register = props => {
@@ -24,9 +25,21 @@ const Register = props => {
       console.log('Passwords do not match');
       props.setAlert('Passwords do not match', 'danger');
     } else {
+      const newUser = {
+        name,
+        email,
+        password
+      };
+
+      props.register(newUser);
       console.log('success');
     }
   };
+
+  // Redirect if logged in
+  if (props.isAuthenticated) {
+    return <Redirect to='/dashboard' />;
+  }
 
   return (
     <>
@@ -90,17 +103,24 @@ const Register = props => {
   );
 };
 
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+});
+
 const mapDispatchToProps = dispatch => {
   return {
-    setAlert: (msg, alertType) => dispatch(setAlert(msg, alertType))
+    setAlert: (msg, alertType) => dispatch(setAlert(msg, alertType)),
+    register: newUser => dispatch(register(newUser))
   };
 };
 
 Register.propTypes = {
-  setAlert: PropTypes.func.isRequired
+  setAlert: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Register);
