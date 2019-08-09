@@ -1,0 +1,6 @@
+{
+  "mongoURI": "mongodb+srv://shahmir811:shahmir811@devconnector-npvdb.mongodb.net/test?retryWrites=true&w=majority",
+  "jwtSecret": "devconnectorsAppSecret",
+  "githubClientId": "a1fc7cb2ea38fec0d3e4",
+  "githubSecret": "cc3db820e152bdc5bd8ba90731e4f3e9eb9689b6"
+}
